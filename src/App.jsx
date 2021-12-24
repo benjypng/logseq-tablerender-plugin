@@ -3,9 +3,6 @@ import { useTable } from 'react-table';
 
 function App(props) {
   const { blockData } = props;
-  const [sumArr, setSumArr] = useState([]);
-
-  console.log(blockData);
 
   // Column Headers Start
   let colArr = [];
@@ -22,9 +19,6 @@ function App(props) {
 
   // Data Row Start
   let rowArr = [];
-  // Array 0 will have data for column 1
-  // Array 1 will have data for column 2
-  // Array 2 will have data for column 3
   for (let i = 0; i < blockData[0].children.length; i++) {
     let payload = {};
     for (let j = 0; j < blockData.length; j++) {
@@ -51,7 +45,6 @@ function App(props) {
         : (arr[middle - 1] + arr[middle]) / 2;
     };
 
-    // arr = [sum of column 2, sum of column 3, and so on]
     let sumArr = [];
     let medianArr = [];
 
