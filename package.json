@@ -17,11 +17,8 @@
     "@logseq/libs": "^0.0.1-alpha.33",
     "codemirror": "^5.64.0",
     "react": "^17.0.2",
-    "react-codemirror2": "^7.2.1",
     "react-dom": "^17.0.2",
-    "react-markdown": "^7.1.1",
-    "react-table": "^7.7.0",
-    "styled-components": "^5.3.3"
+    "react-table": "^7.7.0"
   },
   "logseq": {
     "id": "logseq-tablerender-plugin",
