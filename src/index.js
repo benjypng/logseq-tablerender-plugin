@@ -2,6 +2,7 @@ import '@logseq/libs';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import App from './App';
+import { jsPDF } from 'jspdf';
 
 const main = async () => {
   console.log('Table Render plugin loaded');
@@ -58,15 +59,10 @@ const main = async () => {
 
     // Use React to render board
     const board = ReactDOMServer.renderToStaticMarkup(<App blockData={data} />);
-    logseq.provideModel({
-      print() {
-        console.log('hello');
-      },
-    });
 
     // Set div for renderer to use
     const cmBoard = (board) => {
-      return `<div>${board}<button data-on-click="print">Print PDF</button></div>`;
+      return `<div>${board}</div>`;
     };
 
     if (!type.startsWith(':tables_')) return;
