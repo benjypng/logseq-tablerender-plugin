@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 import App from './App';
 
 const main = async () => {
-  console.log('codemirror plugin loaded');
+  console.log('Table Render plugin loaded');
 
   // Generate unique identifier
   const uniqueIdentifier = () =>
@@ -32,20 +32,6 @@ const main = async () => {
 
     const data = renderBlock.children[0].children;
 
-    const sum = (data) => {
-      const reducer = (previousValue, currentValue) =>
-        previousValue + currentValue;
-      const arr = data.children.map((c) => parseInt(c.content));
-      return arr.reduce(reducer);
-    };
-
-    let answer;
-    logseq.provideModel({
-      test() {
-        console.log('hello');
-      },
-    });
-
     logseq.provideStyle(`
     .tableHeader {
       border-bottom: solid 3px red;
@@ -70,7 +56,6 @@ const main = async () => {
     }
     `);
 
-    let testButton = `<button data-on-click="test">Click me</button>`;
     // Use React to render board
     const board = ReactDOMServer.renderToStaticMarkup(<App blockData={data} />);
 
