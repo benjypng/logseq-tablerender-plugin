@@ -13,7 +13,7 @@ const main = async () => {
       .replace(/[^a-z]+/g, '');
 
   // Insert renderer upon slash command
-  logseq.Editor.registerSlashCommand('tables', async () => {
+  logseq.Editor.registerSlashCommand('table render', async () => {
     await logseq.Editor.insertAtEditingCursor(
       `{{renderer :tables_${uniqueIdentifier()}}}`
     );

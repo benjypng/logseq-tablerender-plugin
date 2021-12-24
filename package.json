@@ -22,7 +22,7 @@
   "logseq": {
     "id": "logseq-tablerender-plugin",
     "title": "logseq-tablerender-plugin",
-    "icon": ""
+    "icon": "./icon.svg"
   },
   "devDependencies": {
     "parcel": "^2.0.1"
