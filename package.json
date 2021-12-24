@@ -1,0 +1,34 @@
+{
+  "name": "logseq-tablerender-plugin",
+  "version": "1.0",
+  "description": "",
+  "main": "dist/index.html",
+  "targets": {
+    "main": false
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build --no-source-maps src/index.html --public-url ./"
+  },
+  "keywords": [],
+  "author": "hkgnp",
+  "license": "MIT",
+  "dependencies": {
+    "@logseq/libs": "^0.0.1-alpha.33",
+    "codemirror": "^5.64.0",
+    "react": "^17.0.2",
+    "react-codemirror2": "^7.2.1",
+    "react-dom": "^17.0.2",
+    "react-markdown": "^7.1.1",
+    "react-table": "^7.7.0",
+    "styled-components": "^5.3.3"
+  },
+  "logseq": {
+    "id": "logseq-tablerender-plugin",
+    "title": "logseq-tablerender-plugin",
+    "icon": ""
+  },
+  "devDependencies": {
+    "parcel": "^2.0.1"
+  }
+}
