@@ -58,10 +58,15 @@ const main = async () => {
 
     // Use React to render board
     const board = ReactDOMServer.renderToStaticMarkup(<App blockData={data} />);
+    logseq.provideModel({
+      print() {
+        console.log('hello');
+      },
+    });
 
     // Set div for renderer to use
     const cmBoard = (board) => {
-      return `<div>${board}</div>`;
+      return `<div>${board}<button data-on-click="print">Print PDF</button></div>`;
     };
 
     if (!type.startsWith(':tables_')) return;
