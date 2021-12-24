@@ -2,7 +2,6 @@ import '@logseq/libs';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import App from './App';
-import { jsPDF } from 'jspdf';
 
 const main = async () => {
   console.log('Table Render plugin loaded');
