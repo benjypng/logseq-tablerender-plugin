@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTable } from 'react-table';
 
-function App(props) {
+const App = (props) => {
   const { blockData } = props;
 
   // Column Headers Start
@@ -114,6 +114,6 @@ function App(props) {
       </table>
     </React.Fragment>
   );
-}
+};
 
 export default App;
