@@ -57,8 +57,6 @@ const App = (props) => {
     const averageArr = sumArr.map((v) =>
       (v / blockData[0].children.length).toFixed(2)
     );
-    console.log(blockData);
-    console.log(averageArr);
 
     return (
       <React.Fragment>
