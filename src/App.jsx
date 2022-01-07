@@ -49,7 +49,10 @@ const App = (props) => {
     let medianArr = [];
 
     for (let i = 1; i < blockData.length; i++) {
-      const childrenArr = blockData[i].children.map((c) => parseInt(c.content));
+      const childrenArr = blockData[i].children.map((c) =>
+        parseFloat(c.content)
+      );
+      console.log(childrenArr);
       sumArr.push(childrenArr.reduce(reducer));
       medianArr.push(median(childrenArr));
     }
