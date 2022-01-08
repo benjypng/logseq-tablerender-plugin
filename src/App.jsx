@@ -52,7 +52,6 @@ const App = (props) => {
       const childrenArr = blockData[i].children.map((c) =>
         parseFloat(c.content)
       );
-      console.log(childrenArr);
       sumArr.push(childrenArr.reduce(reducer));
       medianArr.push(median(childrenArr));
     }

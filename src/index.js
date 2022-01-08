@@ -26,6 +26,8 @@ const main = async () => {
     const id = type.split('_')[1]?.trim();
     const tableId = `tables_${id}`;
 
+    if (!type.startsWith(':tables_')) return;
+
     const renderBlock = await logseq.Editor.getBlock(uuid, {
       includeChildren: true,
     });
@@ -61,10 +63,9 @@ const main = async () => {
 
     // Set div for renderer to use
     const cmBoard = (board) => {
-      return `<div>${board}</div>`;
+      return `<div id="${tableId}" data-slot-id="${slot}" data-table-id="${tableId}" data-block-uuid="${uuid}">${board}</div>`;
     };
 
-    if (!type.startsWith(':tables_')) return;
     logseq.provideUI({
       key: `${tableId}`,
       slot,
