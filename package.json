@@ -1,6 +1,6 @@
 {
   "name": "logseq-tablerender-plugin",
-  "version": "1.31",
+  "version": "1.32",
   "description": "",
   "main": "dist/index.html",
   "targets": {
