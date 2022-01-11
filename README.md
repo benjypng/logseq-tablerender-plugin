@@ -6,7 +6,7 @@ Just use the slash command `/table render` to get started!
 
 ![](/screenshots/demo.gif)
 
-If you do not want the summary table, you can add "nosum" as a flag.
+If you do not want the summary table (with the sum, average and median), you can add "nosum" as a flag.
 
 ![](/screenshots/nosum.png)
 
