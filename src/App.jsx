@@ -2,7 +2,7 @@ import React from 'react';
 import { useTable } from 'react-table';
 
 const App = (props) => {
-  const { blockData } = props;
+  const { blockData, summary } = props;
 
   // Column Headers Start
   let colArr = [];
@@ -34,54 +34,58 @@ const App = (props) => {
     useTable({ columns, data });
 
   const sum = () => {
-    const reducer = (previousValue, currentValue) =>
-      previousValue + currentValue;
+    if (summary.includes('nosum')) {
+      return;
+    } else {
+      const reducer = (previousValue, currentValue) =>
+        previousValue + currentValue;
 
-    const median = (arr) => {
-      let middle = Math.floor(arr.length / 2);
-      arr = [...arr].sort((a, b) => a - b);
-      return arr.length % 2 !== 0
-        ? arr[middle]
-        : (arr[middle - 1] + arr[middle]) / 2;
-    };
+      const median = (arr) => {
+        let middle = Math.floor(arr.length / 2);
+        arr = [...arr].sort((a, b) => a - b);
+        return arr.length % 2 !== 0
+          ? arr[middle]
+          : (arr[middle - 1] + arr[middle]) / 2;
+      };
 
-    let sumArr = [];
-    let medianArr = [];
+      let sumArr = [];
+      let medianArr = [];
 
-    for (let i = 1; i < blockData.length; i++) {
-      const childrenArr = blockData[i].children.map((c) =>
-        parseFloat(c.content)
+      for (let i = 1; i < blockData.length; i++) {
+        const childrenArr = blockData[i].children.map((c) =>
+          parseFloat(c.content)
+        );
+        sumArr.push(childrenArr.reduce(reducer));
+        medianArr.push(median(childrenArr));
+      }
+
+      const averageArr = sumArr.map((v) =>
+        (v / blockData[0].children.length).toFixed(2)
       );
-      sumArr.push(childrenArr.reduce(reducer));
-      medianArr.push(median(childrenArr));
+
+      return (
+        <React.Fragment>
+          <tr>
+            <td className="calculationRow">Sum</td>
+            {sumArr.map((a) => (
+              <td className="calculationRow">{a}</td>
+            ))}
+          </tr>
+          <tr>
+            <td className="calculationRow">Average</td>
+            {averageArr.map((a) => (
+              <td className="calculationRow">{a}</td>
+            ))}
+          </tr>
+          <tr>
+            <td className="calculationRow">Median</td>
+            {medianArr.map((a) => (
+              <td className="calculationRow">{a}</td>
+            ))}
+          </tr>
+        </React.Fragment>
+      );
     }
-
-    const averageArr = sumArr.map((v) =>
-      (v / blockData[0].children.length).toFixed(2)
-    );
-
-    return (
-      <React.Fragment>
-        <tr>
-          <td className="calculationRow">Sum</td>
-          {sumArr.map((a) => (
-            <td className="calculationRow">{a}</td>
-          ))}
-        </tr>
-        <tr>
-          <td className="calculationRow">Average</td>
-          {averageArr.map((a) => (
-            <td className="calculationRow">{a}</td>
-          ))}
-        </tr>
-        <tr>
-          <td className="calculationRow">Median</td>
-          {medianArr.map((a) => (
-            <td className="calculationRow">{a}</td>
-          ))}
-        </tr>
-      </React.Fragment>
-    );
   };
 
   return (

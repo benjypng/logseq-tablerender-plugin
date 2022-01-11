@@ -33,6 +33,7 @@ const main = async () => {
     });
 
     const data = renderBlock.children[0].children;
+    const summary = renderBlock.children[0];
 
     logseq.provideStyle(`
     .tableHeader {
@@ -59,7 +60,9 @@ const main = async () => {
     `);
 
     // Use React to render board
-    const board = ReactDOMServer.renderToStaticMarkup(<App blockData={data} />);
+    const board = ReactDOMServer.renderToStaticMarkup(
+      <App blockData={data} summary={summary.content} />
+    );
 
     // Set div for renderer to use
     const cmBoard = (board) => {
