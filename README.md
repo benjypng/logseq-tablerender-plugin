@@ -6,6 +6,10 @@ Just use the slash command `/table render` to get started!
 
 ![](/screenshots/demo.gif)
 
+If you do not want the summary table, you can add "nosum" as a flag.
+
+![](/screenshots/nosum.png)
+
 # Installation
 
 For now, only manual installation is possible.
