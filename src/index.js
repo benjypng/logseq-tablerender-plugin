@@ -28,13 +28,6 @@ const main = async () => {
 
     if (!type.startsWith(':tables_')) return;
 
-    const renderBlock = await logseq.Editor.getBlock(uuid, {
-      includeChildren: true,
-    });
-
-    const data = renderBlock.children[0].children;
-    const summary = renderBlock.children[0];
-
     logseq.provideStyle(`
     .tableHeader {
       border-bottom: solid 3px red;
@@ -59,22 +52,30 @@ const main = async () => {
     }
     `);
 
-    // Use React to render board
-    const board = ReactDOMServer.renderToStaticMarkup(
-      <App blockData={data} summary={summary.content} />
-    );
-
-    // Set div for renderer to use
-    const cmBoard = (board) => {
-      return `<div id="${tableId}" data-slot-id="${slot}" data-table-id="${tableId}" data-block-uuid="${uuid}">${board}</div>`;
-    };
-
-    logseq.provideUI({
-      key: `${tableId}`,
-      slot,
-      reset: true,
-      template: cmBoard(board),
+    const renderBlock = await logseq.Editor.getBlock(uuid, {
+      includeChildren: true,
     });
+
+    if (renderBlock.children[0] && renderBlock.children[0].children) {
+      const data = renderBlock.children[0].children;
+      const summary = renderBlock.children[0];
+      // Use React to render board
+      const board = ReactDOMServer.renderToStaticMarkup(
+        <App blockData={data} summary={summary.content} />
+      );
+
+      // Set div for renderer to use
+      const cmBoard = (board) => {
+        return `<div id="${tableId}" data-slot-id="${slot}" data-table-id="${tableId}" data-block-uuid="${uuid}">${board}</div>`;
+      };
+
+      logseq.provideUI({
+        key: `${tableId}`,
+        slot,
+        reset: true,
+        template: cmBoard(board),
+      });
+    }
   });
 };
 
