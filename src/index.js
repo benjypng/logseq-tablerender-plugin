@@ -43,6 +43,22 @@ const main = async () => {
       color: black;
     }
 
+    .plainHeader {
+      padding: 10px;
+      border: 1px solid black;
+      background: white; 
+      color: black !important;
+      font-size: 100%;
+    }
+
+    .plainRow {
+      padding: 10px;
+      border: 1px solid black;
+      background: white; 
+      color: black !important;
+      font-size: 100%;
+    }
+
     .calculationRow {
       padding: 10px;
       border: solid 1px gray;

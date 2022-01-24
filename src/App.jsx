@@ -95,7 +95,12 @@ const App = (props) => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()} className="tableHeader">
+                <th
+                  {...column.getHeaderProps()}
+                  className={
+                    summary.includes('nostyle') ? 'plainHeader' : 'tableHeader'
+                  }
+                >
                   {column.render('Header')}
                 </th>
               ))}
@@ -109,7 +114,12 @@ const App = (props) => {
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()} className="tableRow">
+                    <td
+                      {...cell.getCellProps()}
+                      className={
+                        summary.includes('nostyle') ? 'plainRow' : 'tableRow'
+                      }
+                    >
                       {cell.render('Cell')}
                     </td>
                   );
