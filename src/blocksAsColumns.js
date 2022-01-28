@@ -1,4 +1,4 @@
-export const columnsAsHeaders = (blockData) => {
+export const blocksAsColumns = (blockData) => {
   // Column Headers Start
   let colArr = [];
   for (let i = 0; i < blockData.length; i++) {

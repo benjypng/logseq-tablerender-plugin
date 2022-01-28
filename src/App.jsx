@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
-import { columnsAsHeaders } from './columnsAsHeaders';
+import { blocksAsColumns } from './blocksAsColumns';
+// import { childBlocksAsColumns } from './childBlocksAsColumns';
 
 const App = (props) => {
   const { blockData, summary } = props;
@@ -9,11 +10,14 @@ const App = (props) => {
   let data;
 
   if (!summary.includes('rows')) {
-    columns = columnsAsHeaders().columns;
-    data = columnsAsHeaders().data;
-  } else if (summary.includes('rows')) {
-    // insert alternatives for columns and data here.
+    columns = blocksAsColumns().columns;
+    data = blocksAsColumns().data;
   }
+  // else if (summary.includes('rows')) {
+  // insert alternatives for columns and data here.
+  // columns = childBlocksAsColumns().columns;
+  // data = childBlocksAsColumns().data;
+  // }
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
