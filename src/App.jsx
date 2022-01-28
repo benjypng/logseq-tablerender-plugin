@@ -1,34 +1,19 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import { columnsAsHeaders } from './columnsAsHeaders';
 
 const App = (props) => {
   const { blockData, summary } = props;
 
-  // Column Headers Start
-  let colArr = [];
-  for (let i = 0; i < blockData.length; i++) {
-    let payload = {
-      Header: blockData[i].content,
-      accessor: `col${i + 1}`,
-    };
-    colArr.push(payload);
+  let columns;
+  let data;
+
+  if (!summary.includes('rows')) {
+    columns = columnsAsHeaders().columns;
+    data = columnsAsHeaders().data;
+  } else if (summary.includes('rows')) {
+    // insert alternatives for columns and data here.
   }
-
-  const columns = React.useMemo(() => colArr, []);
-  // Column Headers End
-
-  // Data Row Start
-  let rowArr = [];
-  for (let i = 0; i < blockData[0].children.length; i++) {
-    let payload = {};
-    for (let j = 0; j < blockData.length; j++) {
-      payload[`col${j + 1}`] = blockData[j].children[i].content;
-    }
-    rowArr.push(payload);
-  }
-
-  const data = React.useMemo(() => rowArr, []);
-  // Data Row End
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
