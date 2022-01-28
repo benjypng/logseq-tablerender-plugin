@@ -16,12 +16,14 @@ export const blocksAsColumns = (blockData) => {
 
   // Data Row Start
   let rowArr = [];
-  for (let i = 0; i < blockData[0].children.length; i++) {
-    let payload = {};
-    for (let j = 0; j < blockData.length; j++) {
-      payload[`col${j + 1}`] = blockData[j].children[i].content;
+  if (blockData.length > 0) {
+    for (let i = 0; i < blockData[0].children.length; i++) {
+      let payload = {};
+      for (let j = 0; j < blockData.length; j++) {
+        payload[`col${j + 1}`] = i < blockData[j].children.length ? blockData[j].children[i].content : '';
+      }
+      rowArr.push(payload);
     }
-    rowArr.push(payload);
   }
 
   const data = React.useMemo(() => rowArr, []);
