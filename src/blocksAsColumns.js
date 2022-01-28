@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const blocksAsColumns = (blockData) => {
   // Column Headers Start
   let colArr = [];
