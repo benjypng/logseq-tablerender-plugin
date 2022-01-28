@@ -1,23 +1,12 @@
 import React from 'react';
 import { useTable } from 'react-table';
 import { blocksAsColumns } from './blocksAsColumns';
-// import { childBlocksAsColumns } from './childBlocksAsColumns';
+import { childBlocksAsColumns } from './childBlocksAsColumns';
 
 const App = (props) => {
   const { blockData, summary } = props;
 
-  let columns;
-  let data;
-
-  if (!summary.includes('rows')) {
-    columns = blocksAsColumns(blockData).columns;
-    data = blocksAsColumns(blockData).data;
-  }
-  // else if (summary.includes('rows')) {
-  // insert alternatives for columns and data here.
-  // columns = childBlocksAsColumns(blockData).columns;
-  // data = childBlocksAsColumns(blockData).data;
-  // }
+  const { columns, data } = summary.includes('rows') ? childBlocksAsColumns(blockData) : blocksAsColumns(blockData);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
