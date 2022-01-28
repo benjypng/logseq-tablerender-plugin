@@ -10,13 +10,13 @@ const App = (props) => {
   let data;
 
   if (!summary.includes('rows')) {
-    columns = blocksAsColumns().columns;
-    data = blocksAsColumns().data;
+    columns = blocksAsColumns(blockData).columns;
+    data = blocksAsColumns(blockData).data;
   }
   // else if (summary.includes('rows')) {
   // insert alternatives for columns and data here.
-  // columns = childBlocksAsColumns().columns;
-  // data = childBlocksAsColumns().data;
+  // columns = childBlocksAsColumns(blockData).columns;
+  // data = childBlocksAsColumns(blockData).data;
   // }
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
