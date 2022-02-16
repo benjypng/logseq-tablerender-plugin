@@ -20,7 +20,10 @@ export const blocksAsColumns = (blockData) => {
     for (let i = 0; i < blockData[0].children.length; i++) {
       let payload = {};
       for (let j = 0; j < blockData.length; j++) {
-        payload[`col${j + 1}`] = i < blockData[j].children.length ? blockData[j].children[i].content : '';
+        payload[`col${j + 1}`] =
+          i < blockData[j].children.length
+            ? blockData[j].children[i].content
+            : '';
       }
       rowArr.push(payload);
     }
