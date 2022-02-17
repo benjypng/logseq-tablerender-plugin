@@ -1,17 +1,15 @@
-import React from 'react';
+import { checkBlockRef } from './checkBlockRef';
 
-export const blocksAsColumns = (blockData) => {
+export const blocksAsColumns = async (blockData) => {
   // Column Headers Start
   let colArr = [];
   for (let i = 0; i < blockData.length; i++) {
     let payload = {
-      Header: blockData[i].content,
+      Header: await checkBlockRef(blockData[i].content),
       accessor: `col${i + 1}`,
     };
     colArr.push(payload);
   }
-
-  const columns = React.useMemo(() => colArr, []);
   // Column Headers End
 
   // Data Row Start
@@ -22,15 +20,14 @@ export const blocksAsColumns = (blockData) => {
       for (let j = 0; j < blockData.length; j++) {
         payload[`col${j + 1}`] =
           i < blockData[j].children.length
-            ? blockData[j].children[i].content
+            ? await checkBlockRef(blockData[j].children[i].content)
             : '';
       }
       rowArr.push(payload);
     }
   }
 
-  const data = React.useMemo(() => rowArr, []);
   // Data Row End
 
-  return { columns, data };
+  return { colArr, rowArr };
 };

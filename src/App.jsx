@@ -4,15 +4,16 @@ import { blocksAsColumns } from './blocksAsColumns';
 import { childBlocksAsColumns } from './childBlocksAsColumns';
 
 const App = (props) => {
-  const { blockData, summary } = props;
+  const { colArr, rowArr, summaryContent } = props;
 
-  const { columns, data } = summary.includes('rows') ? childBlocksAsColumns(blockData) : blocksAsColumns(blockData);
+  const columns = React.useMemo(() => colArr, []);
+  const data = React.useMemo(() => rowArr, []);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
   const sum = () => {
-    if (summary.includes('nosum')) {
+    if (summaryContent.includes('nosum')) {
       return;
     } else {
       const reducer = (previousValue, currentValue) =>
@@ -76,7 +77,9 @@ const App = (props) => {
                 <th
                   {...column.getHeaderProps()}
                   className={
-                    summary.includes('nostyle') ? 'plainHeader' : 'tableHeader'
+                    summaryContent.includes('nostyle')
+                      ? 'plainHeader'
+                      : 'tableHeader'
                   }
                 >
                   {column.render('Header')}
@@ -95,7 +98,9 @@ const App = (props) => {
                     <td
                       {...cell.getCellProps()}
                       className={
-                        summary.includes('nostyle') ? 'plainRow' : 'tableRow'
+                        summaryContent.includes('nostyle')
+                          ? 'plainRow'
+                          : 'tableRow'
                       }
                     >
                       {cell.render('Cell')}

@@ -2,6 +2,8 @@ import '@logseq/libs';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import App from './App';
+import { blocksAsColumns } from './blocksAsColumns';
+import { childBlocksAsColumns } from './childBlocksAsColumns';
 
 const main = async () => {
   console.log('Table Render plugin loaded');
@@ -73,11 +75,16 @@ const main = async () => {
     });
 
     if (renderBlock.children[0] && renderBlock.children[0].children) {
-      const data = renderBlock.children[0].children;
-      const summary = renderBlock.children[0];
+      const blockData = renderBlock.children[0].children;
+      const summaryContent = renderBlock.children[0].content;
+
+      const { colArr, rowArr } = summaryContent.includes('rows')
+        ? await childBlocksAsColumns(blockData)
+        : await blocksAsColumns(blockData);
+
       // Use React to render board
       const board = ReactDOMServer.renderToStaticMarkup(
-        <App blockData={data} summary={summary.content} />
+        <App colArr={colArr} rowArr={rowArr} summaryContent={summaryContent} />
       );
 
       // Set div for renderer to use

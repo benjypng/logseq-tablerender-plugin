@@ -1,4 +1,4 @@
-import React from 'react';
+import { checkBlockRef } from './checkBlockRef';
 
 function getFirstChildren(blockData) {
   if (blockData.length == 0) {
@@ -16,21 +16,19 @@ function getFirstChildren(blockData) {
   return result;
 }
 
-export const childBlocksAsColumns = (blockData) => {
+export const childBlocksAsColumns = async (blockData) => {
   // Column Headers Start
   // When children are treated as rows, column headers come from the trace of first children of the tree.
   let colArr = [];
   if (blockData.length > 0) {
     for (const [i, value] of getFirstChildren(blockData[0]).entries()) {
       let payload = {
-        Header: value,
+        Header: await checkBlockRef(value),
         accessor: `col${i + 1}`,
       };
       colArr.push(payload);
     }
   }
-
-  const columns = React.useMemo(() => colArr, []);
   // Column Headers End
 
   // Data Row Start
@@ -39,13 +37,11 @@ export const childBlocksAsColumns = (blockData) => {
   for (let i = 1; i < blockData.length; i++) {
     let payload = {};
     for (const [j, value] of getFirstChildren(blockData[i]).entries()) {
-      payload[`col${j + 1}`] = value;
+      payload[`col${j + 1}`] = await checkBlockRef(value);
     }
     rowArr.push(payload);
   }
-
-  const data = React.useMemo(() => rowArr, []);
   // Data Row End
 
-  return { columns, data };
+  return { colArr, rowArr };
 };
