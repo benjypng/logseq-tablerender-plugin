@@ -1,7 +1,5 @@
 import React from "react";
 import { useTable } from "react-table";
-import { blocksAsColumns } from "./blocksAsColumns";
-import { childBlocksAsColumns } from "./childBlocksAsColumns";
 
 const App = (props) => {
     const { colArr, rowArr, summaryContent, blockData } = props;

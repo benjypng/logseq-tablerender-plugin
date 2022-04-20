@@ -1,4 +1,4 @@
-import { checkBlockRef } from './checkBlockRef';
+import { checkBlockRefAndImg } from "./utils";
 
 function getFirstChildren(blockData) {
   if (blockData.length == 0) {
@@ -23,7 +23,7 @@ export const childBlocksAsColumns = async (blockData) => {
   if (blockData.length > 0) {
     for (const [i, value] of getFirstChildren(blockData[0]).entries()) {
       let payload = {
-        Header: await checkBlockRef(value),
+        Header: await checkBlockRefAndImg(value),
         accessor: `col${i + 1}`,
       };
       colArr.push(payload);
@@ -37,7 +37,7 @@ export const childBlocksAsColumns = async (blockData) => {
   for (let i = 1; i < blockData.length; i++) {
     let payload = {};
     for (const [j, value] of getFirstChildren(blockData[i]).entries()) {
-      payload[`col${j + 1}`] = await checkBlockRef(value);
+      payload[`col${j + 1}`] = await checkBlockRefAndImg(value);
     }
     rowArr.push(payload);
   }

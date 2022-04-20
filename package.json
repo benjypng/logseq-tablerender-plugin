@@ -1,30 +1,30 @@
 {
-    "name": "logseq-tablerender-plugin",
-    "version": "1.8.1",
-    "description": "",
-    "main": "dist/index.html",
-    "targets": {
-        "main": false
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "parcel build --no-source-maps src/index.html --public-url ./"
-    },
-    "keywords": [],
-    "author": "hkgnp",
-    "license": "MIT",
-    "dependencies": {
-        "@logseq/libs": "^0.0.1-alpha.33",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-table": "^7.7.0"
-    },
-    "logseq": {
-        "id": "logseq-tablerender-plugin",
-        "title": "logseq-tablerender-plugin",
-        "icon": "./icon.svg"
-    },
-    "devDependencies": {
-        "parcel": "^2.0.1"
-    }
+  "name": "logseq-tablerender-plugin",
+  "version": "1.9.0",
+  "description": "",
+  "main": "dist/index.html",
+  "targets": {
+    "main": false
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build --no-source-maps src/index.html --public-url ./"
+  },
+  "keywords": [],
+  "author": "hkgnp",
+  "license": "MIT",
+  "dependencies": {
+    "@logseq/libs": "^0.0.1-alpha.35",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-table": "^7.7.0"
+  },
+  "logseq": {
+    "id": "logseq-tablerender-plugin",
+    "title": "logseq-tablerender-plugin",
+    "icon": "./icon.svg"
+  },
+  "devDependencies": {
+    "parcel": "^2.0.1"
+  }
 }
