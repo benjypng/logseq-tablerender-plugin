@@ -29,5 +29,10 @@ export const checkBlockRefAndImg = async (content) => {
     );
   }
 
+  // remove id:: if block in table is referenced
+  content = content.includes("\nid::")
+    ? content.substring(0, content.indexOf("\nid::"))
+    : content;
+
   return content;
 };
