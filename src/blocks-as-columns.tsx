@@ -5,6 +5,7 @@ import { checkCell } from "./helpers/handle-cell-type";
 export const blocksAsColumns = async (
   blockData: BlockEntity[],
   graphName: string,
+  path,
 ) => {
   // Column Headers Start
   const columnHelper = createColumnHelper<any>();
@@ -13,7 +14,7 @@ export const blocksAsColumns = async (
     const payload = columnHelper.accessor(`col${i + 1}`, {
       header: blockData[i]?.content,
       cell: (info) => {
-        return checkCell(graphName, info.getValue());
+        return checkCell(path, graphName, info.getValue());
       },
     });
     colArr.push(payload);

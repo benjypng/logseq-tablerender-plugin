@@ -20,14 +20,15 @@ const main = async () => {
     if (!type.startsWith(":tables_")) return;
 
     // Get graph name
-    const graphName = (await logseq.App.getCurrentGraph())!.name;
+    const { name, path } = (await logseq.App.getCurrentGraph())!;
 
     // Get block data to render
     const blk = await logseq.Editor.getBlock(uuid, { includeChildren: true });
     if (!blk || !blk.children) return;
     const { rowArr: data, colArr: columns } = await blocksAsColumns(
       blk.children as BlockEntity[],
-      graphName,
+      name,
+      path,
     );
 
     const html = renderToStaticMarkup(<Table data={data} columns={columns} />);
