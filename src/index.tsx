@@ -31,6 +31,7 @@ const main = async () => {
       path,
     );
 
+    if (!data || !columns) return;
     const html = renderToStaticMarkup(<Table data={data} columns={columns} />);
 
     logseq.provideUI({

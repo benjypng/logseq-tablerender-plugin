@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 import reactStringReplace from "react-string-replace";
 
 export const checkCell = (
@@ -7,13 +6,17 @@ export const checkCell = (
   graphName: string,
   content: string,
 ): ReactNode | string => {
+  if (!content) return;
   let str: ReactNode[] | string = content;
+
   //  Check for block
-  if (content.includes("id:: ")) {
-    const uuid = content.substring(content.indexOf("id:: ") + 4).trim();
+  const uuid = /id\:\:(.*)/.exec(content);
+  if (uuid) {
     const contentText = content.substring(0, content.indexOf("id:: "));
     str = reactStringReplace(contentText, contentText, (match) => (
-      <a href={`logseq://graph/${graphName}?block-id=${uuid}`}>{match}</a>
+      <a href={`logseq://graph/${graphName}?block-id=${uuid[1]?.trim()}`}>
+        {match}
+      </a>
     ));
   }
 
@@ -36,7 +39,6 @@ export const checkCell = (
 
   if (matchedImgRefArray.length > 0) {
     for (const i of matchedImgRefArray) {
-      const getOrigFilename = i[1]?.substring(0, i[1]?.indexOf("]"));
       const filename = /\(\.\.\/assets\/(.*?)\)/.exec(i[1]!)![1];
       const height = /\:height(.*?)(\d+)/.exec(i[0])![2];
       const width = /\:width(.*?)(\d+)/.exec(i[0])![2];
