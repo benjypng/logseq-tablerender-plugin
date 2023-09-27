@@ -11,7 +11,7 @@ export const checkCell = (
   if (content.includes("id:: ")) {
     const uuid = content.substring(content.indexOf("id:: ") + 4).trim();
     const contentText = content.substring(0, content.indexOf("id:: "));
-    str = reactStringReplace(content, contentText, (match) => (
+    str = reactStringReplace(contentText, contentText, (match) => (
       <a href={`logseq://graph/${graphName}?block-id=${uuid}`}>{match}</a>
     ));
   }
