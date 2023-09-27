@@ -1,8 +1,8 @@
 import "@logseq/libs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Table } from "./components/Table";
-import { blocksAsColumns } from "./blocksAsColumns";
-//import { childBlocksAsColumns } from "./childBlocksAsColumns";
+import { blocksAsColumns } from "./blocks-as-columns";
+import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 
 const main = async () => {
   console.log("Table Render plugin loaded");
@@ -13,17 +13,21 @@ const main = async () => {
   });
 
   logseq.App.onMacroRendererSlotted(async ({ slot, payload }) => {
-    // Get uuid of payload so that child blocks can be retrieved for the board
     const { uuid } = payload;
     const [type] = payload.arguments;
     if (!type) return;
     const tableId = `tables_${uuid}_${slot}`;
     if (!type.startsWith(":tables_")) return;
 
-    const blk = await logseq.Editor.getBlock(uuid, { includeChildren: true });
+    // Get graph name
+    const graphName = (await logseq.App.getCurrentGraph())!.name;
 
+    // Get block data to render
+    const blk = await logseq.Editor.getBlock(uuid, { includeChildren: true });
+    if (!blk || !blk.children) return;
     const { rowArr: data, colArr: columns } = await blocksAsColumns(
-      blk?.children,
+      blk.children as BlockEntity[],
+      graphName,
     );
 
     const html = renderToStaticMarkup(<Table data={data} columns={columns} />);
