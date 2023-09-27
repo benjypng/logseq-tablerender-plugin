@@ -2,7 +2,7 @@
 
 # Overview
 
-> Instructions below are updated with the latest change
+> Instructions below are updated with the latest change.
 
 Render tables with basic math functions using data from your blocks.
 
