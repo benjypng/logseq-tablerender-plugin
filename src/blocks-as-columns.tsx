@@ -1,4 +1,4 @@
-import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
+import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin.user";
 import { createColumnHelper } from "@tanstack/react-table";
 import { checkCell } from "./helpers/handle-cell-type";
 
@@ -12,7 +12,9 @@ export const blocksAsColumns = async (
   for (let i = 0; i < blockData.length; i++) {
     const payload = columnHelper.accessor(`col${i + 1}`, {
       header: blockData[i]?.content,
-      cell: (info) => checkCell(graphName, info.getValue()),
+      cell: (info) => {
+        return checkCell(graphName, info.getValue());
+      },
     });
     colArr.push(payload);
   }
@@ -25,6 +27,14 @@ export const blocksAsColumns = async (
 
     for (let j = 0; j < blockData.length; j++) {
       let content = blockData[j].children[i].content;
+      const rxBlockRef = /\(\(([^)]*)\)\)/;
+      const blockRef = rxBlockRef.exec(content);
+
+      if (blockRef) {
+        content = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
+          .content;
+      }
+
       payload[`col${j + 1}`] =
         i < blockData[j]!.children!.length ? content : "";
     }
