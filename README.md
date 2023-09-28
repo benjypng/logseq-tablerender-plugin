@@ -2,7 +2,7 @@
 
 # Overview
 
-> Instructions below are incompatible with v1.10.0 onwards
+> Instructions below are incompatible with v2.0.0 onwards
 
 Render tables with basic math functions using data from your blocks.
 
