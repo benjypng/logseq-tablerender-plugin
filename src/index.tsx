@@ -1,9 +1,10 @@
 import "@logseq/libs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Table } from "./components/Table";
-import { blocksAsColumns } from "./blocks-as-columns";
-import { childBlocksAsColumns } from "./child-blocks-as-columns";
+import { blocksAsColumns } from "./helpers/blocks-as-columns";
+import { childBlocksAsColumns } from "./helpers/child-blocks-as-columns";
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
+import { blocksAsRows } from "./helpers/blocks-as-rows";
 
 const main = async () => {
   console.log("Table Render plugin loaded");
@@ -28,6 +29,9 @@ const main = async () => {
     // Get block data to render
     const blk = await logseq.Editor.getBlock(uuid, { includeChildren: true });
     if (!blk || !blk.children) return;
+    switch (params) {
+      case "rows":
+    }
     const { rowArr: data, colArr: columns } =
       params !== "rows"
         ? await blocksAsColumns(blk.children as BlockEntity[], name, path)

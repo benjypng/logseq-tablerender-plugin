@@ -1,6 +1,6 @@
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin";
 import { createColumnHelper } from "@tanstack/react-table";
-import { checkCell } from "./helpers/handle-cell-type";
+import { checkCell } from "./handle-cell-type";
 
 const getFirstChildren = (blockData: BlockEntity) => {
   if (blockData.length == 0) {
