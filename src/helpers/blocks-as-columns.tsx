@@ -34,7 +34,7 @@ export const blocksAsColumns = async (
 
   // Data Row Start
   let rowArr = [];
-  for (let i = 0; i < blockData[0]!.children?.length!; i++) {
+  for (const [i] of blockData[0]?.children?.entries()!) {
     let payload: { [key: string]: string } = {};
     for (const [j, value] of blockData.entries()) {
       let content = (value.children![i]! as BlockEntity).content;

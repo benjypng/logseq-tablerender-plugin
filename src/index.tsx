@@ -34,7 +34,7 @@ const main = async () => {
     }
     const { rowArr: data, colArr: columns } =
       params !== "rows"
-        ? await blocksAsColumns(blk.children as BlockEntity[], name, path)
+        ? await blocksAsRows(blk.children as BlockEntity[], name, path)
         : await childBlocksAsColumns(blk.children as BlockEntity[], name, path);
 
     if (!data || !columns) return;
