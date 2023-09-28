@@ -21,38 +21,42 @@ const main = async () => {
     const tableId = `tables_${uuid}_${slot}`;
     if (!type.startsWith(":tables_")) return;
 
-    const params = type.split(" ")[1];
-
     // Get graph name
     const { name, path } = (await logseq.App.getCurrentGraph())!;
 
     // Get block data to render
-    const blk = await logseq.Editor.getBlock(uuid, { includeChildren: true });
-    if (!blk || !blk.children) return;
+    const blk = await logseq.Editor.getBlock(uuid, {
+      includeChildren: true,
+    });
+    if (!blk || !blk.children || blk.children.length === 0) return;
+
+    const paramsBlk = blk?.children![0];
+    const { content, children } = paramsBlk as BlockEntity;
+    if (children?.length === 0) return;
 
     let data;
     let columns;
-    switch (params) {
-      case "rows": {
+    switch (true) {
+      case content.includes("rows"): {
         const { rowArr: dataVar, colArr: columnsVar } =
-          await childBlocksAsColumns(blk.children as BlockEntity[], name, path);
+          await childBlocksAsColumns(children as BlockEntity[], name, path);
         data = dataVar;
         columns = columnsVar;
-        return;
+        break;
       }
-      case "cols": {
+      case content.includes("cols"): {
         const { rowArr: dataVar, colArr: columnsVar } = await blocksAsRows(
-          blk.children as BlockEntity[],
+          children as BlockEntity[],
           name,
           path,
         );
         data = dataVar;
         columns = columnsVar;
-        return;
+        break;
       }
       default: {
         const { rowArr: dataVar, colArr: columnsVar } = await blocksAsColumns(
-          blk.children as BlockEntity[],
+          children as BlockEntity[],
           name,
           path,
         );
@@ -63,6 +67,8 @@ const main = async () => {
 
     if (!data || !columns) return;
     const html = renderToStaticMarkup(<Table data={data} columns={columns} />);
+
+    if (!html) return;
 
     logseq.provideUI({
       key: `${tableId}`,

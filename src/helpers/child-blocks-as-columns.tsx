@@ -1,4 +1,4 @@
-import { BlockEntity } from "@logseq/libs/dist/LSPlugin";
+import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin";
 import { createColumnHelper } from "@tanstack/react-table";
 import { checkCell } from "./handle-cell-type";
 
@@ -45,9 +45,16 @@ export const childBlocksAsColumns = async (
   let rowArr = [];
   for (let i = 1; i < blockData.length; i++) {
     let payload: { [key: string]: string } = {};
-    for (const [j, value] of getFirstChildren(
+    for (let [j, value] of getFirstChildren(
       blockData[i] as BlockEntity,
     ).entries()) {
+      if (!value) continue;
+      const blockRef = /\(\(([^)]*)\)\)/.exec(value);
+      // get block here because you can't have a promise in columnHelper
+      if (blockRef) {
+        value = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
+          .content;
+      }
       payload[`col${j + 1}`] = value;
     }
     rowArr.push(payload);

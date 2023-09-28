@@ -3,11 +3,32 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { checkCell } from "./handle-cell-type";
 
 const getFirstChildren = (blockData: BlockEntity[]) => {
-  if (blockData.length === 0) {
-    return [];
-  }
+  if (blockData.length === 0) return [];
   const result = blockData.map((b: BlockEntity) => b.content);
   return result;
+};
+
+const getData = (blockData: BlockEntity[]) => {
+  if (blockData.length === 0) return [];
+
+  // Get length of longest children
+  const childrenBlocksLength = blockData.map((b) => b.children);
+  const longestArrLength = Math.max(
+    0,
+    ...childrenBlocksLength.map((s) => s!.length),
+  );
+
+  let arr = [];
+  for (let i = 0; i < longestArrLength; i++) {
+    const mappedVal = blockData.map((b) => {
+      if (!b.children) return;
+      if (b.children[i]) {
+        return (b.children[i] as BlockEntity).content;
+      }
+    });
+    arr.push(mappedVal);
+  }
+  return arr;
 };
 
 export const blocksAsColumns = async (
@@ -15,7 +36,7 @@ export const blocksAsColumns = async (
   graphName: string,
   path: string,
 ): Promise<{
-  rowArr: { [key: string]: string }[];
+  rowArr: { [key: string]: string | undefined }[];
   colArr: { header?: any | undefined; cell?: any | undefined }[];
 }> => {
   // Column Headers Start
@@ -34,17 +55,17 @@ export const blocksAsColumns = async (
 
   // Data Row Start
   let rowArr = [];
-  for (const [i] of blockData[0]?.children?.entries()!) {
-    let payload: { [key: string]: string } = {};
-    for (const [j, value] of blockData.entries()) {
-      let content = (value.children![i]! as BlockEntity).content;
-      const blockRef = /\(\(([^)]*)\)\)/.exec(content);
+  for (const [_i, cols] of getData(blockData).entries()) {
+    let payload: { [key: string]: string | undefined } = {};
+    for (let [j, value] of cols.entries()) {
+      if (!value) continue;
+      const blockRef = /\(\(([^)]*)\)\)/.exec(value);
       // get block here because you can't have a promise in columnHelper
       if (blockRef) {
-        content = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
+        value = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
           .content;
       }
-      payload[`col${j + 1}`] = i < value.children!.length ? content : "";
+      payload[`col${j + 1}`] = value;
     }
     rowArr.push(payload);
   }
