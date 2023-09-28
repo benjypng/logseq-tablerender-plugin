@@ -1,4 +1,4 @@
-import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin.user";
+import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { createColumnHelper } from "@tanstack/react-table";
 import { checkCell } from "./handle-cell-type";
 
@@ -40,8 +40,6 @@ export const blocksAsRows = async (
   let rowArr = [];
   for (let i = 1; i < blockData.length!; i++) {
     let payload: { [key: string]: string } = {};
-    console.log(`col${i}`);
-    console.log("content", blockData[i]?.content!);
     payload[`col1`] = blockData[i]?.content!;
 
     for (const [j, value] of blockData[i]?.children!.entries()!) {
@@ -49,7 +47,6 @@ export const blocksAsRows = async (
     }
     rowArr.push(payload);
   }
-  console.log(rowArr);
   // Data Row End
 
   return { colArr, rowArr };

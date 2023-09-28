@@ -29,13 +29,37 @@ const main = async () => {
     // Get block data to render
     const blk = await logseq.Editor.getBlock(uuid, { includeChildren: true });
     if (!blk || !blk.children) return;
+
+    let data;
+    let columns;
     switch (params) {
-      case "rows":
+      case "rows": {
+        const { rowArr: dataVar, colArr: columnsVar } =
+          await childBlocksAsColumns(blk.children as BlockEntity[], name, path);
+        data = dataVar;
+        columns = columnsVar;
+        return;
+      }
+      case "cols": {
+        const { rowArr: dataVar, colArr: columnsVar } = await blocksAsRows(
+          blk.children as BlockEntity[],
+          name,
+          path,
+        );
+        data = dataVar;
+        columns = columnsVar;
+        return;
+      }
+      default: {
+        const { rowArr: dataVar, colArr: columnsVar } = await blocksAsColumns(
+          blk.children as BlockEntity[],
+          name,
+          path,
+        );
+        data = dataVar;
+        columns = columnsVar;
+      }
     }
-    const { rowArr: data, colArr: columns } =
-      params !== "rows"
-        ? await blocksAsRows(blk.children as BlockEntity[], name, path)
-        : await childBlocksAsColumns(blk.children as BlockEntity[], name, path);
 
     if (!data || !columns) return;
     const html = renderToStaticMarkup(<Table data={data} columns={columns} />);

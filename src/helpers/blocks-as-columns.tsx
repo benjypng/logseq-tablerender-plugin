@@ -49,7 +49,6 @@ export const blocksAsColumns = async (
     rowArr.push(payload);
   }
   // Data Row End
-  //[col1: test col2: row 2 col 1]
 
   return { colArr, rowArr };
 };
