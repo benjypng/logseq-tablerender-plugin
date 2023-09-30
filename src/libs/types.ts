@@ -14,4 +14,8 @@ export type ParamsProps = {
   averageCol?: string | number;
   medianCol?: string | number;
   modeCol?: string | number;
+  varianceCol?: string | number;
+  sdCol?: string | number;
+  ssdCol?: string | number;
+  percentileCol?: string | number;
 };

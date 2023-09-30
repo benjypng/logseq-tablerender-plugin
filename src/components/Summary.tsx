@@ -22,41 +22,83 @@ export const Summary = ({ results }: SummaryProps) => {
     .result-card > p {
         margin: 2px;
     }
+
+    .description {
+        font-style: italic;
+    }
 	`);
-  const { average, sum, median, mode } = results;
+
+  const { average, sum, median, mode, variance, sd, ssd, percentile } = results;
+
   return (
-    <div className="summary">
-      {average && (
-        <div className="result-card">
-          <b>AVERAGE</b>
-          <p>{average.description}</p>
-          <p>{average.value}</p>
-        </div>
-      )}
+    <>
+      {Object.keys(results).length !== 0 && (
+        <div className="summary">
+          {average && (
+            <div className="result-card">
+              <b>AVERAGE</b>
+              <p className="description">{average.description}</p>
+              <p>{average.value}</p>
+            </div>
+          )}
 
-      {sum && (
-        <div className="result-card">
-          <b>SUM</b>
-          <p>{sum.description}</p>
-          <p>{sum.value}</p>
-        </div>
-      )}
+          {sum && (
+            <div className="result-card">
+              <b>SUM</b>
+              <p className="description">{sum.description}</p>
+              <p>{sum.value}</p>
+            </div>
+          )}
 
-      {median && (
-        <div className="result-card">
-          <b>MEDIAN</b>
-          <p>{median.description}</p>
-          <p>{median.value}</p>
-        </div>
-      )}
+          {median && (
+            <div className="result-card">
+              <b>MEDIAN</b>
+              <p className="description">{median.description}</p>
+              <p>{median.value}</p>
+            </div>
+          )}
 
-      {mode && (
-        <div className="result-card">
-          <b>MODE</b>
-          <p>{mode.description}</p>
-          <p>{mode.value}</p>
+          {mode && (
+            <div className="result-card">
+              <b>MODE</b>
+              <p className="description">{mode.description}</p>
+              <p>{mode.value}</p>
+            </div>
+          )}
+
+          {variance && (
+            <div className="result-card">
+              <b>VARIANCE</b>
+              <p className="description">{variance.description}</p>
+              <p>{variance.value}</p>
+            </div>
+          )}
+
+          {sd && (
+            <div className="result-card">
+              <b>STANDARD DEVIATION</b>
+              <p className="description">{sd.description}</p>
+              <p>{sd.value.toFixed(4)}</p>
+            </div>
+          )}
+
+          {ssd && (
+            <div className="result-card">
+              <b>SAMPLE STANDARD DEVIATION</b>
+              <p className="description">{ssd.description}</p>
+              <p>{ssd.value.toFixed(4)}</p>
+            </div>
+          )}
+
+          {percentile && (
+            <div className="result-card">
+              <b>PERCENTILE</b>
+              <p className="description">{percentile.description}</p>
+              <p>{percentile.value.toFixed(4)}</p>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };

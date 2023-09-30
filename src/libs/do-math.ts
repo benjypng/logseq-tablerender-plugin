@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ColumnProps, DataProps, ParamsProps } from "./types";
+import { DataProps, ParamsProps } from "./types";
 import stats from "stats-lite";
 
 export const doMath = (
@@ -8,7 +8,11 @@ export const doMath = (
   columns: ColumnDef<{ [key: string]: string | undefined }, any>[],
 ) => {
   let results: any = {};
-  for (const p of Object.keys(params)) {
+  let percentage;
+  for (const p of Object.keys(params).reverse()) {
+    // Check if percentage and assign first
+    if (p === "percentilePercent") percentage = params[p as keyof ParamsProps];
+
     const col = params[p as keyof ParamsProps];
     if (!col) return;
     const description = columns.filter(
@@ -46,6 +50,37 @@ export const doMath = (
           value: newVal,
         };
         break;
+      case "varianceCol":
+        newVal = getVariance(col as string, data);
+        results["variance"] = {
+          description: description[0]?.header,
+          value: newVal,
+        };
+        break;
+      case "sdCol":
+        newVal = getSD(col as string, data);
+        results["sd"] = {
+          description: description[0]?.header,
+          value: newVal,
+        };
+        break;
+      case "ssdCol":
+        newVal = getSampleSD(col as string, data);
+        results["ssd"] = {
+          description: description[0]?.header,
+          value: newVal,
+        };
+        break;
+      case "percentileCol":
+        newVal = getPercentile(
+          col as string,
+          data,
+          parseFloat(percentage as string),
+        );
+        results["percentile"] = {
+          description: description[0]?.header,
+          value: newVal,
+        };
       default:
         break;
     }
@@ -71,4 +106,28 @@ const getMedian = (col: string, data: DataProps): number => {
 const getMode = (col: string, data: DataProps): number => {
   const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
   return stats.mode(valuesToSum);
+};
+
+const getVariance = (col: string, data: DataProps): number => {
+  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
+  return stats.variance(valuesToSum);
+};
+
+const getSD = (col: string, data: DataProps): number => {
+  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
+  return stats.stdev(valuesToSum);
+};
+
+const getSampleSD = (col: string, data: DataProps): number => {
+  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
+  return stats.sampleStdev(valuesToSum);
+};
+
+const getPercentile = (
+  col: string,
+  data: DataProps,
+  percentile: number,
+): number => {
+  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
+  return stats.percentile(valuesToSum, percentile / 100); // Percentile is in whole numbers
 };

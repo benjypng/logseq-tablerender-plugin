@@ -15,5 +15,9 @@ export type SummaryProps = {
     sum?: result;
     median?: result;
     mode?: result;
+    variance?: result;
+    sd?: result;
+    ssd?: result;
+    percentile?: result;
   };
 };
