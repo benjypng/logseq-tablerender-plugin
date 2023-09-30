@@ -1,9 +1,8 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { DataProps } from "~/libs/types";
+import { ColumnProps, DataProps } from "~/libs/types";
 
 export type TableProps = {
   data: DataProps;
-  columns: ColumnDef<{ [key: string]: string | undefined }, any>[];
+  columns: ColumnProps;
 };
 
 export type result = {

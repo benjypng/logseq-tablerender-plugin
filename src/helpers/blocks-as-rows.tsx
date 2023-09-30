@@ -1,6 +1,6 @@
 import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin.user";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { checkCell } from "./handle-cell-type";
+import { DataProps, ColumnProps } from "~/libs/types";
 
 const getFirstChildren = (blockData: BlockEntity[]) => {
   if (blockData.length === 0) {
@@ -19,19 +19,20 @@ export const blocksAsRows = async (
   graphName: string,
   path: string,
 ): Promise<{
-  rowArr: { [key: string]: string }[];
-  colArr: ColumnDef<{ [key: string]: string | undefined }, any>[];
+  rowArr: DataProps;
+  colArr: ColumnProps;
 }> => {
   // Column Headers Start
-  const columnHelper = createColumnHelper<any>();
   let colArr = [];
   for (const [i, value] of getFirstChildren(blockData).entries()) {
-    const payload = columnHelper.accessor(`col${i + 1}`, {
+    const col = `col${i + 1}`;
+    const payload = {
+      accessorKey: col,
       header: value,
-      cell: (info) => {
+      cell: (info: any) => {
         return checkCell(path, graphName, info.getValue());
       },
-    });
+    };
     colArr.push(payload);
   }
   // Column Headers End
