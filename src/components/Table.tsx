@@ -13,7 +13,7 @@ export const Table = ({ data, columns }: TableProps) => {
   });
 
   return (
-    <div className="p-2">
+    <div style={{ display: "block" }}>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

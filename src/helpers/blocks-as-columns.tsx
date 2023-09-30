@@ -1,5 +1,5 @@
 import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin.user";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { checkCell } from "./handle-cell-type";
 
 const getFirstChildren = (blockData: BlockEntity[]) => {
@@ -37,7 +37,7 @@ export const blocksAsColumns = async (
   path: string,
 ): Promise<{
   rowArr: { [key: string]: string | undefined }[];
-  colArr: { header?: any | undefined; cell?: any | undefined }[];
+  colArr: ColumnDef<{ [key: string]: string | undefined }, any>[];
 }> => {
   // Column Headers Start
   const columnHelper = createColumnHelper<any>();

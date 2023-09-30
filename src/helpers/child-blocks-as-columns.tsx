@@ -1,5 +1,5 @@
 import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { checkCell } from "./handle-cell-type";
 
 const getFirstChildren = (blockData: BlockEntity) => {
@@ -21,7 +21,7 @@ export const childBlocksAsColumns = async (
   path: string,
 ): Promise<{
   rowArr: { [key: string]: string }[];
-  colArr: { header?: any | undefined; cell?: any | undefined }[];
+  colArr: ColumnDef<{ [key: string]: string | undefined }, any>[];
 }> => {
   // Column Headers Start
   // When children are treated as rows, column headers come from the trace of first children of the tree.

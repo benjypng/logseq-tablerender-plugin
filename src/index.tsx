@@ -5,6 +5,9 @@ import { blocksAsColumns } from "./helpers/blocks-as-columns";
 import { childBlocksAsColumns } from "./helpers/child-blocks-as-columns";
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { blocksAsRows } from "./helpers/blocks-as-rows";
+import { checkParams } from "./libs/check-params";
+import { doMath } from "./libs/do-math";
+import { Summary } from "./components/Summary";
 
 const main = async () => {
   console.log("Table Render plugin loaded");
@@ -66,9 +69,20 @@ const main = async () => {
     }
 
     if (!data || !columns) return;
-    const html = renderToStaticMarkup(<Table data={data} columns={columns} />);
+    const results = doMath(checkParams(content), data, columns);
 
-    if (!html) return;
+    let html;
+    if (results) {
+      html = renderToStaticMarkup(
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Table data={data} columns={columns} />
+          <Summary results={results} />
+        </div>,
+      );
+    } else {
+      html = renderToStaticMarkup(<Table data={data} columns={columns} />);
+      if (!html) return;
+    }
 
     logseq.provideUI({
       key: `${tableId}`,
