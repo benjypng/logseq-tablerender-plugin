@@ -38,7 +38,7 @@ export const Summary = ({ results }: SummaryProps) => {
             <div className="result-card">
               <b>AVERAGE</b>
               <p className="description">{average.description}</p>
-              <p>{average.value}</p>
+              <p>{average.value.toFixed(4)}</p>
             </div>
           )}
 
@@ -46,7 +46,7 @@ export const Summary = ({ results }: SummaryProps) => {
             <div className="result-card">
               <b>SUM</b>
               <p className="description">{sum.description}</p>
-              <p>{sum.value}</p>
+              <p>{sum.value.toFixed(4)}</p>
             </div>
           )}
 
@@ -54,7 +54,7 @@ export const Summary = ({ results }: SummaryProps) => {
             <div className="result-card">
               <b>MEDIAN</b>
               <p className="description">{median.description}</p>
-              <p>{median.value}</p>
+              <p>{median.value.toFixed(4)}</p>
             </div>
           )}
 
@@ -62,7 +62,7 @@ export const Summary = ({ results }: SummaryProps) => {
             <div className="result-card">
               <b>MODE</b>
               <p className="description">{mode.description}</p>
-              <p>{mode.value}</p>
+              <p>{mode.value.toFixed(4)}</p>
             </div>
           )}
 
@@ -70,7 +70,7 @@ export const Summary = ({ results }: SummaryProps) => {
             <div className="result-card">
               <b>VARIANCE</b>
               <p className="description">{variance.description}</p>
-              <p>{variance.value}</p>
+              <p>{variance.value.toFixed(4)}</p>
             </div>
           )}
 
