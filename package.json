@@ -25,7 +25,7 @@
         "@semantic-release/github",
         {
           "assets": [
-            "logseq-<insert name>-plugin.zip"
+            "logseq-tablerender-plugin.zip"
           ]
         }
       ]
