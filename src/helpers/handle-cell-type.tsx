@@ -10,7 +10,7 @@ export const checkCell = (
   let str: ReactNode[] | string = content;
 
   //  Check for block
-  const uuid = /id\:\:(.*)/.exec(content);
+  const uuid = /id::(.*)/.exec(content);
   if (uuid) {
     const contentText = content.substring(0, content.indexOf("id:: "));
     str = reactStringReplace(contentText, contentText, (match) => (
@@ -83,6 +83,28 @@ export const checkCell = (
         </a>
       );
       str = reactStringReplace(str, l[0], () => elem);
+    }
+  }
+
+  // Check for bold
+  const rxBoldRef = /(\*\*(.*?)\*\*)/g;
+  const matchedBoldArr = [...content.matchAll(rxBoldRef)];
+
+  if (matchedBoldArr.length > 0) {
+    for (const i of matchedBoldArr) {
+      const elem = <b>{i[2]}</b>;
+      str = reactStringReplace(str, i[0], () => elem);
+    }
+  }
+
+  // Check for bold
+  const rxItalicsRef = /(\*(.*?)\*)/g;
+  const matchedItacliesArr = [...content.matchAll(rxItalicsRef)];
+
+  if (matchedItacliesArr.length > 0) {
+    for (const i of matchedItacliesArr) {
+      const elem = <i>{i[2]}</i>;
+      str = reactStringReplace(str, i[0], () => elem);
     }
   }
 
