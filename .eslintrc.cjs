@@ -27,6 +27,7 @@ const config = {
   plugins: ["@typescript-eslint", "prettier"],
   ignorePatterns: ["!.*", "dist", "node_modules"],
   rules: {
+    "@typescript-eslint/no-explicit-any": ["off"],
     "@typescript-eslint/ban-ts-comment": "off",
     "prettier/prettier": "error",
     "comma-dangle": ["error", "always-multiline"],

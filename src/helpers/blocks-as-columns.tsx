@@ -18,7 +18,7 @@ const getData = (blockData: BlockEntity[]) => {
     ...childrenBlocksLength.map((s) => s!.length),
   );
 
-  let arr = [];
+  const arr = [];
   for (let i = 0; i < longestArrLength; i++) {
     const mappedVal = blockData.map((b) => {
       if (!b.children) return;
@@ -40,7 +40,7 @@ export const blocksAsColumns = async (
   colArr: ColumnProps;
 }> => {
   // Column Headers Start
-  let colArr = [];
+  const colArr = [];
   for (const [i, value] of getFirstChildren(blockData).entries()) {
     const col = `col${i + 1}`;
     const payload = {
@@ -55,18 +55,19 @@ export const blocksAsColumns = async (
   // Column Headers End
 
   // Data Row Start
-  let rowArr = [];
+  const rowArr = [];
   for (const [_i, cols] of getData(blockData).entries()) {
-    let payload: { [key: string]: string | undefined } = {};
-    for (let [j, value] of cols.entries()) {
+    const payload: { [key: string]: string | undefined } = {};
+    for (const [j, value] of cols.entries()) {
+      let cellValue;
       if (!value) continue;
       const blockRef = /\(\(([^)]*)\)\)/.exec(value);
       // get block here because you can't have a promise in columnHelper
       if (blockRef) {
-        value = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
+        cellValue = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
           .content;
       }
-      payload[`col${j + 1}`] = value;
+      payload[`col${j + 1}`] = cellValue;
     }
     rowArr.push(payload);
   }

@@ -6,7 +6,7 @@ const getFirstChildren = (blockData: BlockEntity[]) => {
   if (blockData.length === 0) {
     return [];
   }
-  let result = [];
+  const result = [];
   result.push(blockData[0]?.content);
   for (const b of blockData[0]?.children as BlockEntity[]) {
     result.push(b.content);
@@ -23,7 +23,7 @@ export const blocksAsRows = async (
   colArr: ColumnProps;
 }> => {
   // Column Headers Start
-  let colArr = [];
+  const colArr = [];
   for (const [i, value] of getFirstChildren(blockData).entries()) {
     const col = `col${i + 1}`;
     const payload = {
@@ -38,11 +38,11 @@ export const blocksAsRows = async (
   // Column Headers End
 
   // Data Row Start
-  let rowArr = [];
+  const rowArr = [];
   for (let i = 1; i < blockData.length!; i++) {
-    let payload: { [key: string]: string } = {};
-    payload[`col1`] = blockData[i]?.content!;
-    for (let [j, value] of blockData[i]?.children?.entries()!) {
+    const payload: { [key: string]: string } = {};
+    payload[`col1`] = blockData[i]!.content;
+    for (const [j, value] of blockData[i]!.children!.entries()) {
       if (!value) continue;
       const blockRef = /\(\(([^)]*)\)\)/.exec((value as BlockEntity).content);
       // get block here because you can't have a promise in columnHelper

@@ -7,7 +7,7 @@ const getFirstChildren = (blockData: BlockEntity) => {
     return [];
   }
   let trace = blockData;
-  let result = [trace.content];
+  const result = [trace.content];
   while (trace.children!.length > 0) {
     trace = trace.children![0] as BlockEntity;
     result.push(trace.content);
@@ -25,7 +25,7 @@ export const childBlocksAsColumns = async (
 }> => {
   // Column Headers Start
   // When children are treated as rows, column headers come from the trace of first children of the tree.
-  let colArr = [];
+  const colArr = [];
   if (blockData.length > 0 && blockData[0]) {
     for (const [i, value] of getFirstChildren(blockData[0]).entries()) {
       const col = `col${i + 1}`;
@@ -33,7 +33,8 @@ export const childBlocksAsColumns = async (
         accessorKey: col,
         header: value,
         cell: (info: any) => {
-          return checkCell(path, graphName, info.getValue());
+          const cell = checkCell(path, graphName, info.getValue());
+          return cell;
         },
       };
       colArr.push(payload);
@@ -43,9 +44,9 @@ export const childBlocksAsColumns = async (
 
   // Data Row Start
   // Rows are traces of the subsequent children of the blockData tree.
-  let rowArr = [];
+  const rowArr = [];
   for (let i = 1; i < blockData.length; i++) {
-    let payload: { [key: string]: string } = {};
+    const payload: { [key: string]: string } = {};
     for (let [j, value] of getFirstChildren(
       blockData[i] as BlockEntity,
     ).entries()) {
