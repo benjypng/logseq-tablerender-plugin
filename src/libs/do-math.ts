@@ -1,4 +1,15 @@
 import { ColumnDef } from "@tanstack/react-table";
+
+import {
+  getAverage,
+  getMedian,
+  getMode,
+  getPercentile,
+  getSampleSD,
+  getSD,
+  getSum,
+  getVariance,
+} from "../helpers/math-helpers";
 import {
   CalculationTypes,
   DataProps,
@@ -6,21 +17,11 @@ import {
   MathTypeProps,
   ParamsProps,
 } from "./types";
-import {
-  getAverage,
-  getMedian,
-  getMode,
-  getPercentile,
-  getSD,
-  getSampleSD,
-  getSum,
-  getVariance,
-} from "../helpers/math-helpers";
 
 export const doMath = (
   params: ParamsProps[],
   data: DataProps,
-  columns: ColumnDef<{ [key: string]: string | undefined }, any>[],
+  columns: ColumnDef<Record<string, string | undefined>, any>[],
 ): MathResults[] => {
   const getSummaryObj = (
     param: ParamsProps,

@@ -1,67 +1,70 @@
-import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin";
-import { checkCell } from "./handle-cell-type";
-import { DataProps, ColumnProps } from "~/libs/types";
+import { BlockEntity, BlockUUID } from '@logseq/libs/dist/LSPlugin'
+
+import { ColumnProps, DataProps } from '~/libs/types'
+
+import { checkCell } from './handle-cell-type'
 
 const getFirstChildren = (blockData: BlockEntity) => {
   if (blockData.length == 0) {
-    return [];
+    return []
   }
-  let trace = blockData;
-  const result = [trace.content];
+  let trace = blockData
+  const result = [trace.content]
   while (trace.children!.length > 0) {
-    trace = trace.children![0] as BlockEntity;
-    result.push(trace.content);
+    trace = trace.children![0] as BlockEntity
+    result.push(trace.content)
   }
-  return result;
-};
+  return result
+}
 
 export const childBlocksAsColumns = async (
   blockData: BlockEntity[],
   graphName: string,
   path: string,
 ): Promise<{
-  rowArr: DataProps;
-  colArr: ColumnProps;
+  rowArr: DataProps
+  colArr: ColumnProps
 }> => {
   // Column Headers Start
   // When children are treated as rows, column headers come from the trace of first children of the tree.
-  const colArr = [];
+  const colArr = []
   if (blockData.length > 0 && blockData[0]) {
     for (const [i, value] of getFirstChildren(blockData[0]).entries()) {
-      const col = `col${i + 1}`;
+      const col = `col${i + 1}`
       const payload = {
         accessorKey: col,
         header: value,
         cell: (info: any) => {
-          const cell = checkCell(path, graphName, info.getValue());
-          return cell;
+          const cell = checkCell(path, graphName, info.getValue())
+          return cell
         },
-      };
-      colArr.push(payload);
+      }
+      colArr.push(payload)
     }
   }
   // Column Headers End
 
   // Data Row Start
   // Rows are traces of the subsequent children of the blockData tree.
-  const rowArr = [];
+  const rowArr = []
   for (let i = 1; i < blockData.length; i++) {
-    const payload: { [key: string]: string } = {};
+    const payload: Record<string, string> = {}
+    // eslint-disable-next-line
     for (let [j, value] of getFirstChildren(
       blockData[i] as BlockEntity,
     ).entries()) {
-      if (!value) continue;
-      const blockRef = /\(\(([^)]*)\)\)/.exec(value);
+      if (!value) continue
+      const blockRef = /\(\(([^)]*)\)\)/.exec(value)
       // get block here because you can't have a promise in columnHelper
       if (blockRef) {
         value = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
-          .content;
+          .content
       }
-      payload[`col${j + 1}`] = value;
+      payload[`col${j + 1}`] = value
     }
-    rowArr.push(payload);
+    rowArr.push(payload)
   }
   // Data Row End
 
-  return { colArr, rowArr };
-};
+  return { colArr, rowArr }
+}

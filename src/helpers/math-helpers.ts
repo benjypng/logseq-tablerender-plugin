@@ -1,5 +1,6 @@
-import { DataProps } from "~/libs/types";
 import stats from "stats-lite";
+
+import { DataProps } from "~/libs/types";
 
 export const getSum = (col: string, data: DataProps): number => {
   const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));

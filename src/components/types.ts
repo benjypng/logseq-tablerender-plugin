@@ -1,16 +1,16 @@
 import { ColumnProps, DataProps } from "~/libs/types";
 
-export type TableProps = {
+export interface TableProps {
   data: DataProps;
   columns: ColumnProps;
-};
+}
 
-export type result = {
+export interface result {
   description: string;
   value: number;
-};
+}
 
-export type SummaryProps = {
+export interface SummaryProps {
   results: {
     average?: result;
     sum?: result;
@@ -21,4 +21,4 @@ export type SummaryProps = {
     ssd?: result;
     percentile?: result;
   };
-};
+}

@@ -1,6 +1,8 @@
 import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin.user";
+
+import { ColumnProps,DataProps } from "~/libs/types";
+
 import { checkCell } from "./handle-cell-type";
-import { DataProps, ColumnProps } from "~/libs/types";
 
 const getFirstChildren = (blockData: BlockEntity[]) => {
   if (blockData.length === 0) {
@@ -40,7 +42,7 @@ export const blocksAsRows = async (
   // Data Row Start
   const rowArr = [];
   for (let i = 1; i < blockData.length!; i++) {
-    const payload: { [key: string]: string } = {};
+    const payload: Record<string, string> = {};
     payload[`col1`] = blockData[i]!.content;
     for (const [j, value] of blockData[i]!.children!.entries()) {
       if (!value) continue;

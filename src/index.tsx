@@ -1,13 +1,15 @@
 import "@logseq/libs";
+
+import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { renderToStaticMarkup } from "react-dom/server";
+
+import { Summary } from "./components/Summary";
 import { Table } from "./components/Table";
 import { blocksAsColumns } from "./helpers/blocks-as-columns";
-import { childBlocksAsColumns } from "./helpers/child-blocks-as-columns";
-import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { blocksAsRows } from "./helpers/blocks-as-rows";
+import { childBlocksAsColumns } from "./helpers/child-blocks-as-columns";
 import { checkParams } from "./libs/check-params";
 import { doMath } from "./libs/do-math";
-import { Summary } from "./components/Summary";
 
 const main = async () => {
   console.log("Table Render plugin loaded");

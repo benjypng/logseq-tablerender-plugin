@@ -3,6 +3,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
 import { TableProps } from "./types";
 
 export const Table = ({ data, columns }: TableProps) => {
