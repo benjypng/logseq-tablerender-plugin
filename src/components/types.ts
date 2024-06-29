@@ -9,6 +9,7 @@ export type result = {
   description: string;
   value: number;
 };
+
 export type SummaryProps = {
   results: {
     average?: result;

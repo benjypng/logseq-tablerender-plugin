@@ -69,14 +69,14 @@ const main = async () => {
     }
 
     if (!data || !columns) return;
-    const results = doMath(checkParams(content), data, columns);
+    const summaryResults = doMath(checkParams(content), data, columns);
 
     let html;
-    if (results) {
+    if (summaryResults) {
       html = renderToStaticMarkup(
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Table data={data} columns={columns} />
-          <Summary results={results} />
+          <Summary results={summaryResults} />
         </div>,
       );
     } else {

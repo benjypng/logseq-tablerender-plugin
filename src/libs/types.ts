@@ -1,4 +1,8 @@
-import { ColumnDef } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  ColumnDefTemplate,
+  HeaderContext,
+} from "@tanstack/react-table";
 
 export type DataProps = { [key: string]: string | undefined }[];
 
@@ -9,13 +13,36 @@ export type MathProps = {
   data: DataProps;
 };
 
+export type MathTypeProps =
+  | "sumCol"
+  | "averageCol"
+  | "medianCol"
+  | "modeCol"
+  | "varianceCol"
+  | "sdCol"
+  | "ssdCol"
+  | "percentileCol";
+
+export type CalculationTypes =
+  | "sum"
+  | "average"
+  | "median"
+  | "mode"
+  | "variance"
+  | "sd"
+  | "ssd"
+  | "percentile";
+
+type MathTypeMapping = {
+  [key in MathTypeProps]?: string;
+};
+
 export type ParamsProps = {
-  sumCol?: string | number;
-  averageCol?: string | number;
-  medianCol?: string | number;
-  modeCol?: string | number;
-  varianceCol?: string | number;
-  sdCol?: string | number;
-  ssdCol?: string | number;
-  percentileCol?: string | number;
+  type: CalculationTypes;
+} & MathTypeMapping;
+
+export type MathResults = {
+  description: string;
+  type: CalculationTypes;
+  value: number;
 };
