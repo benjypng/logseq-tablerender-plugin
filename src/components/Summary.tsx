@@ -28,6 +28,8 @@ export const Summary = ({ results }: { results: MathResults[] }) => {
     }
 	`);
 
+  if (results.length === 0) return null;
+
   return (
     <div className="summary">
       {results.map((result) => {

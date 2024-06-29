@@ -1,4 +1,4 @@
-import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin.user";
+import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { checkCell } from "./handle-cell-type";
 import { DataProps, ColumnProps } from "~/libs/types";
 
@@ -59,15 +59,8 @@ export const blocksAsColumns = async (
   for (const [_i, cols] of getData(blockData).entries()) {
     const payload: { [key: string]: string | undefined } = {};
     for (const [j, value] of cols.entries()) {
-      let cellValue;
       if (!value) continue;
-      const blockRef = /\(\(([^)]*)\)\)/.exec(value);
-      // get block here because you can't have a promise in columnHelper
-      if (blockRef) {
-        cellValue = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
-          .content;
-      }
-      payload[`col${j + 1}`] = cellValue;
+      payload[`col${j + 1}`] = value;
     }
     rowArr.push(payload);
   }

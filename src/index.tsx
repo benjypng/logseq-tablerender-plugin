@@ -57,7 +57,7 @@ const main = async () => {
         columns = columnsVar;
         break;
       }
-      default: {
+      case content.includes("data"): {
         const { rowArr: dataVar, colArr: columnsVar } = await blocksAsColumns(
           children as BlockEntity[],
           name,
@@ -65,7 +65,9 @@ const main = async () => {
         );
         data = dataVar;
         columns = columnsVar;
+        break;
       }
+      default:
     }
 
     if (!data || !columns) return;
