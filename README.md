@@ -27,7 +27,7 @@ To draw a table above, you can use any one of the below approaches, with the fla
 1. `data`
 
 ```md
-- {{renderer(:tables_656a0198-9b78-4d81-ae9a-09811cce3c8d)}}
+- {{renderer :tables_656a0198-9b78-4d81-ae9a-09811cce3c8d}}
   - data
     - Category
       - Fruits
@@ -46,7 +46,7 @@ To draw a table above, you can use any one of the below approaches, with the fla
 2. `rows`
 
 ```md
-- {{renderer(:tables_656a0198-9b78-4d81-ae9a-09811cce3c8d)}}
+- {{renderer :tables_656a0198-9b78-4d81-ae9a-09811cce3c8d}}
   - rows
     - Category
       - Fresh Produce
@@ -65,7 +65,7 @@ To draw a table above, you can use any one of the below approaches, with the fla
 3. `cols`
 
 ```md
-- {{renderer(:tables_656a0198-9b78-4d81-ae9a-09811cce3c8d)}}
+- {{renderer :tables_656a0198-9b78-4d81-ae9a-09811cce3c8d}}
   - cols
     - Category
       - Fresh Produce
@@ -111,4 +111,3 @@ Look for `logseq-tablerender-plugin` in the marketplace and install from there.
 # Credits
 
 [stats-lite](https://github.com/brycebaril/node-stats-lite) for providing the calculations.
-
