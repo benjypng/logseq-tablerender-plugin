@@ -16,6 +16,8 @@ export const checkCell = (
   if (!content) return
   let str: ReactNode[] | string = content
 
+  str = str.replace(/collapsed::\s*(true|false)/, '')
+
   //  Check for block
   const uuid = /id::(.*)/.exec(content)
   if (uuid) {
