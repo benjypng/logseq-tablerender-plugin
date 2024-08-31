@@ -2,12 +2,13 @@ import { ReactNode } from 'react'
 import reactStringReplace from 'react-string-replace'
 
 import { handleBold } from '../libs/process-content/handle-bold'
+import { handleCode } from '../libs/process-content/handle-code'
 import { handleCodeblocks } from '../libs/process-content/handle-codeblocks'
 import { handleImage } from '../libs/process-content/handle-image'
 import { handleItalics } from '../libs/process-content/handle-italics'
 import { handleLink } from '../libs/process-content/handle-link'
 import { handleTag } from '../libs/process-content/handle-tag'
-import { handleCode } from '~/libs/process-content/handle-code'
+import { handleMarkdownLink } from '../libs/process-content/handle-markdown-link'
 
 export const checkCell = (
   path: string,
@@ -45,6 +46,9 @@ export const checkCell = (
 
   // Check for image
   str = handleImage(str, path)
+
+  // Check for markdown link
+  str = handleMarkdownLink(str)
 
   // Check for link
   str = handleLink(str)

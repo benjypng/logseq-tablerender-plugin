@@ -10,9 +10,10 @@ export const handleCodeblocks = (str: ReactNode[]): ReactNode[] => {
         fontSize: '90%',
         padding: '0.5rem',
         fontFamily: 'monospace',
+        backgroundColor: '#eee',
       }}
     >
-      {match}
+      {match.replaceAll('\n', '')}
     </div>
   ))
 }
