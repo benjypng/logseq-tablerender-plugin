@@ -7,6 +7,7 @@ import { handleImage } from '../libs/process-content/handle-image'
 import { handleItalics } from '../libs/process-content/handle-italics'
 import { handleLink } from '../libs/process-content/handle-link'
 import { handleTag } from '../libs/process-content/handle-tag'
+import { handleCode } from '~/libs/process-content/handle-code'
 
 export const checkCell = (
   path: string,
@@ -56,6 +57,9 @@ export const checkCell = (
 
   // Check for italics
   str = handleItalics(str)
+
+  // Handle inline code
+  str = handleCode(str)
 
   // Handle code blocks
   str = handleCodeblocks(str)
