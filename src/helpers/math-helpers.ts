@@ -1,47 +1,77 @@
-import stats from "stats-lite";
+import { ReactElement } from 'react'
+import stats from 'stats-lite'
 
-import { DataProps } from "~/libs/types";
+import { DataProps } from '../libs/types'
 
-export const getSum = (col: string, data: DataProps): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.sum(valuesToSum);
-};
+const extractNumber = (obj: ReactElement | undefined) => {
+  if (!obj) return obj
 
-export const getAverage = (col: string, data: DataProps): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.mean(valuesToSum);
-};
+  const html = obj.props.dangerouslySetInnerHTML.__html
+  if (!html) return obj
 
-export const getMedian = (col: string, data: DataProps): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.median(valuesToSum);
-};
+  const match = html.match(/-?\d+(\.\d+)?/)
+  return match ? parseFloat(match[0]) : obj
+}
 
-export const getMode = (col: string, data: DataProps): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.mode(valuesToSum);
-};
+export const getSum = (col: string, data: DataProps[]): number => {
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  return stats.sum(values)
+}
 
-export const getVariance = (col: string, data: DataProps): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.variance(valuesToSum);
-};
+export const getAverage = (col: string, data: DataProps[]): number => {
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  return stats.mean(values)
+}
 
-export const getSD = (col: string, data: DataProps): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.stdev(valuesToSum);
-};
+export const getMedian = (col: string, data: DataProps[]): number => {
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  return stats.median(values)
+}
 
-export const getSampleSD = (col: string, data: DataProps): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.sampleStdev(valuesToSum);
-};
+export const getMode = (col: string, data: DataProps[]): number => {
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  const mode = stats.mode(values)
+  // Return 0 if there is no frequent number
+  if (Array.isArray(mode)) return 0
+  return stats.mode(values)
+}
+
+export const getVariance = (col: string, data: DataProps[]): number => {
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  return stats.variance(values)
+}
+
+export const getSD = (col: string, data: DataProps[]): number => {
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  return stats.stdev(values)
+}
+
+export const getSampleSD = (col: string, data: DataProps[]): number => {
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  return stats.sampleStdev(values)
+}
 
 export const getPercentile = (
   col: string,
-  data: DataProps,
+  data: DataProps[],
   percentile: number,
 ): number => {
-  const valuesToSum = data.map((d) => parseFloat(d[`col${col}`]!));
-  return stats.percentile(valuesToSum, percentile / 100); // Percentile is in whole numbers
-};
+  const values = data.map((d) => {
+    return extractNumber(d[`col${col}`])
+  })
+  return stats.percentile(values, percentile / 100) // Percentile is in whole numbers
+}

@@ -4,9 +4,15 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { TableProps } from './types'
+import { ColumnProps, DataProps } from '../libs/types'
 
-export const Table = ({ data, columns }: TableProps) => {
+export const Table = ({
+  data,
+  columns,
+}: {
+  data: DataProps[]
+  columns: ColumnProps[]
+}) => {
   const table = useReactTable({
     data,
     columns,

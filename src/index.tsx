@@ -73,6 +73,7 @@ const main = async () => {
     }
 
     if (!data || !columns) return
+
     const summaryResults = doMath(checkParams(content), data, columns)
 
     let html

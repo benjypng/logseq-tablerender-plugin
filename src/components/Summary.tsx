@@ -1,4 +1,4 @@
-import { MathResults } from "~/libs/types";
+import { MathResults } from '../libs/types'
 
 export const Summary = ({ results }: { results: MathResults[] }) => {
   logseq.provideStyle(`
@@ -26,86 +26,86 @@ export const Summary = ({ results }: { results: MathResults[] }) => {
     .description {
         font-style: italic;
     }
-	`);
+	`)
 
-  if (results.length === 0) return null;
+  if (results.length === 0) return null
 
   return (
     <div className="summary">
-      {results.map((result) => {
+      {results.map((result, index) => {
         switch (result.type) {
-          case "average":
+          case 'average':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>AVERAGE</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
-          case "sum":
+            )
+          case 'sum':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>SUM</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
-          case "median":
+            )
+          case 'median':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>MEDIAN</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
-          case "mode":
+            )
+          case 'mode':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>MODE</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
-          case "variance":
+            )
+          case 'variance':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>VARIANCE</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
-          case "sd":
+            )
+          case 'sd':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>STANDARD DEVIATION</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
-          case "ssd":
+            )
+          case 'ssd':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>SAMPLE STANDARD DEVIATION</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
-          case "percentile":
+            )
+          case 'percentile':
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>PERCENTILE</b>
                 <p className="description">{result.description}</p>
                 <p>{result.value.toFixed(4)}</p>
               </div>
-            );
+            )
           default:
             return (
-              <div className="result-card">
+              <div key={index} className="result-card">
                 <b>No data found</b>
               </div>
-            );
+            )
         }
       })}
     </div>
-  );
-};
+  )
+}

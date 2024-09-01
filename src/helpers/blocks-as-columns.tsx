@@ -1,5 +1,4 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { ReactElement } from 'react'
 
 import { removeLsAttributes } from '../libs/process-content/remove-ls-attributes'
 import { checkCell } from './handle-cell-type'
@@ -45,7 +44,7 @@ export const blocksAsColumns = async (
     const payload = {
       accessorKey: col,
       header: removeLsAttributes(value),
-      cell: ({ getValue }: { getValue: () => HTMLDivElement }) => getValue(),
+      cell: ({ getValue }: { getValue: any }) => getValue(),
     }
     colArr.push(payload)
   }
@@ -54,7 +53,7 @@ export const blocksAsColumns = async (
   // Data Row Start
   const rowArr = []
   for (const [_i, cols] of getData(blockData).entries()) {
-    const payload: Record<string, ReactElement> = {}
+    const payload: Record<string, JSX.Element> = {}
     for (const [j, value] of cols.entries()) {
       if (!value) continue
       payload[`col${j + 1}`] = await checkCell(path, graphName, value)

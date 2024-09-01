@@ -1,8 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-export type DataProps = Record<string, string | undefined>[]
+export type DataProps = Record<string, JSX.Element>
 
-export type ColumnProps = ColumnDef<Record<string, string>>[]
+export type ColumnProps = ColumnDef<Record<string, JSX.Element>>
 
 export interface MathProps {
   sumCol: string

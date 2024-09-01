@@ -10,11 +10,10 @@
     "main": "dist/index.html"
   },
   "scripts": {
-    "dev:start": "pnpm add @logseq/libs -S && pnpm add @types/eslint @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier eslint-plugin-prettier prettier vite vite-plugin-logseq vite-tsconfig-paths typescript -D",
-    "dev:tailwind": "pnpm add tailwindcss cssnano autoprefixer -D && touch tailwind.config.js && touch .postcssrc.cjs && touch src/tailwind.css",
     "dev": "npx vite",
-    "build": "npx tsc && npx vite build",
-    "preview": "npx vite preview"
+    "build": "npx eslint . --fix && npx tsc && npx vite build",
+    "preview": "npx vite preview",
+    "prepare": "husky"
   },
   "release": {
     "branches": [
@@ -55,6 +54,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "husky": "^9.1.5",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.3.0",
