@@ -1,64 +1,55 @@
-import { BlockEntity, BlockUUID } from "@logseq/libs/dist/LSPlugin.user";
+import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { ReactElement } from 'react'
 
-import { ColumnProps,DataProps } from "~/libs/types";
-
-import { checkCell } from "./handle-cell-type";
+import { removeLsAttributes } from '../libs/process-content/remove-ls-attributes'
+import { checkCell } from './handle-cell-type'
 
 const getFirstChildren = (blockData: BlockEntity[]) => {
-  if (blockData.length === 0) {
-    return [];
+  if (blockData.length === 0 || !blockData[0]) {
+    return []
   }
-  const result = [];
-  result.push(blockData[0]?.content);
-  for (const b of blockData[0]?.children as BlockEntity[]) {
-    result.push(b.content);
+  const result = []
+  result.push(blockData[0].content)
+  for (const b of blockData[0].children as BlockEntity[]) {
+    result.push(b.content)
   }
-  return result;
-};
+  return result
+}
 
 export const blocksAsRows = async (
   blockData: BlockEntity[],
   graphName: string,
   path: string,
-): Promise<{
-  rowArr: DataProps;
-  colArr: ColumnProps;
-}> => {
+) => {
   // Column Headers Start
-  const colArr = [];
+  const colArr = []
   for (const [i, value] of getFirstChildren(blockData).entries()) {
-    const col = `col${i + 1}`;
+    const col = `col${i + 1}`
     const payload = {
       accessorKey: col,
-      header: value,
-      cell: (info: any) => {
-        return checkCell(path, graphName, info.getValue());
-      },
-    };
-    colArr.push(payload);
+      header: removeLsAttributes(value),
+      cell: ({ getValue }: { getValue: () => HTMLDivElement }) => getValue(),
+    }
+    colArr.push(payload)
   }
   // Column Headers End
 
   // Data Row Start
-  const rowArr = [];
+  const rowArr = []
   for (let i = 1; i < blockData.length!; i++) {
-    const payload: Record<string, string> = {};
-    payload[`col1`] = blockData[i]!.content;
+    const payload: Record<string, ReactElement> = {}
+    payload[`col1`] = <p>{blockData[i]!.content}</p>
+
     for (const [j, value] of blockData[i]!.children!.entries()) {
-      if (!value) continue;
-      const blockRef = /\(\(([^)]*)\)\)/.exec((value as BlockEntity).content);
-      // get block here because you can't have a promise in columnHelper
-      if (blockRef) {
-        const content = (await logseq.Editor.getBlock(
-          blockRef[1] as BlockUUID,
-        ))!.content;
-        payload[`col${j + 2}`] = content;
-      } else {
-        payload[`col${j + 2}`] = (value as BlockEntity).content;
-      }
+      if (!value) continue
+      payload[`col${j + 2}`] = await checkCell(
+        path,
+        graphName,
+        (value as BlockEntity).content,
+      )
     }
-    rowArr.push(payload);
+    rowArr.push(payload)
   }
   // Data Row End
-  return { colArr, rowArr };
-};
+  return { colArr, rowArr }
+}

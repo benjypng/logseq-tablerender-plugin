@@ -1,7 +1,7 @@
-import { BlockEntity, BlockUUID } from '@logseq/libs/dist/LSPlugin'
+import { BlockEntity } from '@logseq/libs/dist/LSPlugin'
+import { ReactElement } from 'react'
 
-import { ColumnProps, DataProps } from '~/libs/types'
-
+import { removeLsAttributes } from '../libs/process-content/remove-ls-attributes'
 import { checkCell } from './handle-cell-type'
 
 const getFirstChildren = (blockData: BlockEntity) => {
@@ -21,10 +21,7 @@ export const childBlocksAsColumns = async (
   blockData: BlockEntity[],
   graphName: string,
   path: string,
-): Promise<{
-  rowArr: DataProps
-  colArr: ColumnProps
-}> => {
+) => {
   // Column Headers Start
   // When children are treated as rows, column headers come from the trace of first children of the tree.
   const colArr = []
@@ -33,11 +30,8 @@ export const childBlocksAsColumns = async (
       const col = `col${i + 1}`
       const payload = {
         accessorKey: col,
-        header: value,
-        cell: (info: any) => {
-          const cell = checkCell(path, graphName, info.getValue())
-          return cell
-        },
+        header: removeLsAttributes(value),
+        cell: ({ getValue }: { getValue: () => HTMLDivElement }) => getValue(),
       }
       colArr.push(payload)
     }
@@ -45,22 +39,14 @@ export const childBlocksAsColumns = async (
   // Column Headers End
 
   // Data Row Start
-  // Rows are traces of the subsequent children of the blockData tree.
   const rowArr = []
   for (let i = 1; i < blockData.length; i++) {
-    const payload: Record<string, string> = {}
-    // eslint-disable-next-line
-    for (let [j, value] of getFirstChildren(
+    const payload: Record<string, ReactElement> = {}
+    for (const [j, value] of getFirstChildren(
       blockData[i] as BlockEntity,
     ).entries()) {
       if (!value) continue
-      const blockRef = /\(\(([^)]*)\)\)/.exec(value)
-      // get block here because you can't have a promise in columnHelper
-      if (blockRef) {
-        value = (await logseq.Editor.getBlock(blockRef[1] as BlockUUID))!
-          .content
-      }
-      payload[`col${j + 1}`] = value
+      payload[`col${j + 1}`] = await checkCell(path, graphName, value)
     }
     rowArr.push(payload)
   }

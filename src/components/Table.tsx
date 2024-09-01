@@ -2,19 +2,19 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table'
 
-import { TableProps } from "./types";
+import { TableProps } from './types'
 
 export const Table = ({ data, columns }: TableProps) => {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-  });
+  })
 
   return (
-    <div style={{ display: "block" }}>
+    <div style={{ display: 'block' }}>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -40,12 +40,12 @@ export const Table = ({ data, columns }: TableProps) => {
                   <td key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
-                );
+                )
               })}
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { ReactElement } from 'react'
 
-import { ColumnProps, DataProps } from '~/libs/types'
-
+import { removeLsAttributes } from '../libs/process-content/remove-ls-attributes'
 import { checkCell } from './handle-cell-type'
 
 const getFirstChildren = (blockData: BlockEntity[]) => {
@@ -37,20 +37,15 @@ export const blocksAsColumns = async (
   blockData: BlockEntity[],
   graphName: string,
   path: string,
-): Promise<{
-  rowArr: DataProps
-  colArr: ColumnProps
-}> => {
+) => {
   // Column Headers Start
   const colArr = []
   for (const [i, value] of getFirstChildren(blockData).entries()) {
     const col = `col${i + 1}`
     const payload = {
       accessorKey: col,
-      header: value,
-      cell: (info: any) => {
-        return checkCell(path, graphName, info.getValue())
-      },
+      header: removeLsAttributes(value),
+      cell: ({ getValue }: { getValue: () => HTMLDivElement }) => getValue(),
     }
     colArr.push(payload)
   }
@@ -59,10 +54,10 @@ export const blocksAsColumns = async (
   // Data Row Start
   const rowArr = []
   for (const [_i, cols] of getData(blockData).entries()) {
-    const payload: Record<string, string | undefined> = {}
+    const payload: Record<string, ReactElement> = {}
     for (const [j, value] of cols.entries()) {
       if (!value) continue
-      payload[`col${j + 1}`] = value
+      payload[`col${j + 1}`] = await checkCell(path, graphName, value)
     }
     rowArr.push(payload)
   }
